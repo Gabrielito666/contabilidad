@@ -1,0 +1,100 @@
+Tengo echo el backend que interactua con la base de datos... nesecito el front.
+
+el front debe ser una pantalla html que permita al usuario crear cuentas bancarias ficticias y modificarlas
+
+por ende cree los endpoints que están en index.js (lo puedes revisar pero no tocar).
+
+1) '/crearCuenta'
+2) '/listadoCuentas'
+3) '/detalleCuenta'
+4) '/agragarMovimiento'
+
+te detallo lo que hace cada uno.
+
+1) recibe un objeto con dos propiedades. 'nombre' y 'usuarios'... nombre es un string y usuarios un array
+    ej : {nombre : 'cuenta banco de chile', usuarios : [Anto]}
+    ej : {nombre : 'cuenta hogar', usuarios : [Gabrielito, Anto]}
+
+este con un objeto como estos la base de datos creará una cuenta o prohibira la creación.
+debolverá un objeto como este:
+
+    ej : {ok : true, mensaje : 'La cuenta ha sido creada exitosamente'}
+    ej : {ok : false, mensaje : 'Ya existe una cuenta con ese nombre'}
+
+entonces debes hacer un pos ajax enviando un objeto como los ejemplos de arriba y el callback
+debiera ser una función que muestre en pantalla el mensaje retornado. Pero no te reocupes por el callback por ahora
+
+todo esto ligado a un botón Crear cuenta
+
+2) listado cuentas recibe un objeto con solo un parametro. usuario que es un string
+
+    ej : {usuario : 'Gabrielito'}
+
+y retorna un listado de todas las cuentas en los que esté 'Gabrielito' (en este caso)
+
+    ej : ['cuenta hogar', 'banco estado', 'lek SpA']
+
+la gracia es que con estos resultados llenemos en el html un listado de cuentas que estén
+asociiadas a el usuario que esté logueado
+
+3) detalle cuenta recibe un objeto con solo una propiedad cuenta.. que es un string
+    ej : {cuenta : 'cuenta hogar'}
+
+y devuelve un array con movimientos ordenados
+
+    ej : [
+        {monto : -50.000,
+        fecha : '15-07-2023',
+        comentario : 'bien cara la ida a la vega'},
+        {otro objeto similar}
+    ]
+
+la idea es que cuando alguien haga click en una de las cuentas del listado arrojado por el endpoint 2 
+se traigan estos datos y se muestre en una grilla
+
+
+4) Este callcakc recibe un objeto con dos propiedades  cuenta y movimiento... el primero string y
+el siguiente un numero.
+
+    ej : {cuenta : 'cuenta hogar', mocimiento : -50.000}
+
+luego devuelve un json similar al de el endpoint anterior:
+
+    ej : {ok : true, mensaje : 'El movimento ha sido registrado exitosamente'}
+
+la idea es que cuendo uno quiera enviar un movimiento nuevo. esto lo registre en la db de la cuenta
+
+
+
+
+ESTO ES SOLO CONTEXTO!!!!
+
+lo que quiero que hagas es formatear un buen html y css para luego hagamos entre los 2 el javascript
+
+entonces la app es una pantalla con un listado de cuentas y un boton crear cuenta debajo
+
+y cuando se hace click en alguna cuenta se abre una ventana emergente con la grilla y un boton
+añadir movimiento
+
+igual que la vez pasada entonces
+
+dos section... una visible y la otra hidden
+
+en la visible pones un div para el listado y un div para el botón
+
+en la hidden pones un div para la ventana emergente
+
+ambos section deben tener el tamaño de la pantalla
+
+el section hidden debe tener background color blanco tranparente... cosa que se vea la pantalla visible
+detras pero se note que no se puede tocar
+
+que te quede bonito... usa display : flex; estoy cachando que es bien util
+
+para centrar la ventana emergente puedes usar align-items : center; justify-content : center (creo)
+
+
+para construir este section puedes sacarle el hidden por mientras
+
+OJO... ambos section deben estar en el mismo lugar (la idea es que kla ventana emergente tape la pantalla
+anterior)... así que ponles position : absolute; top : 0; left : 0;
