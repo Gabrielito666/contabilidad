@@ -98,3 +98,23 @@ para construir este section puedes sacarle el hidden por mientras
 
 OJO... ambos section deben estar en el mismo lugar (la idea es que kla ventana emergente tape la pantalla
 anterior)... así que ponles position : absolute; top : 0; left : 0;
+
+
+
+<div id="div_cuenta">
+            <div id="exit"><h3 class="exit">X</h3></div>
+            <div class="div_tabla">
+                <h1>Cuenta familiar</h1>
+                <table border="1" width="80%" height="10%">
+                    <thead><tr><th>Número</th><th>Descripción</th><th>Total</th></tr></thead>
+                    <tbody><tr><td>1</td><td>2</td><td>3</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="div_agregar_cuenta">
+            <div id="exit"><h3 class="exit">X</h3></div>
+            <h1>Nombre de la cuenta que quieres agregar</h1>
+            <div class="div_input_cuenta">
+                <input name="agregar_cuenta" type="text" id="input_agregar_cuenta">
+            </div>
+        </div>

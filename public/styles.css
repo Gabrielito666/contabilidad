@@ -1,0 +1,95 @@
+@font-face {
+    font-family: 'SpaceMono';
+    src: url('SpaceMono') format('woff2')
+}
+
+body {
+    background-color: #27474E;
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+}
+
+section, div, label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+section > div {
+    background-color: #B9FAF8;
+    border: #1dafaa 3px solid;
+    width: 60%;
+    height: 75%;
+}
+
+section > div > div {
+    width: 100%;
+    height: 100%;
+}
+
+.div_titulo {flex: 1;}
+
+.div_contenido {flex: 5;}
+
+.div_boton {flex: 1;}
+
+h1, h2 {color: black;}
+
+.exit {
+    position: absolute;
+    top: 10%;
+    right: 21%;
+    cursor: pointer;
+}
+
+section > div > div h2, section > div > div h3 {cursor: pointer;}
+
+section > div > div h2:hover, .exit:hover {color: rgb(47, 0, 255);}
+
+button {
+    text-align: center;
+    height: 50%;
+    width: 25%;
+    cursor: pointer;
+}
+
+button:hover {background-color: rgb(207, 207, 85);}
+
+section[hidden] {pointer-events: none;}
+
+.section_hidden {
+    background-color: rgba(255, 255, 255, 0.637);
+    display: none;
+}
+
+#div_cuenta, #div_agregar_cuenta {display: none;}
+
+label {width: 100%;}
+
+input[type="text"] {
+    width: 80%;
+	background: transparent;
+	padding: 0.5em 0;
+	margin-bottom: 2em;
+	color: gray;
+    border: 3px solid black;
+    text-align: center;
+}
+
+.div_radio_buttons {
+    flex-direction: row;
+    width: 50%;
+}
+
+section > div > div> div {width: 100%;}
+
+section > div > div > div > div {width: 100%;}

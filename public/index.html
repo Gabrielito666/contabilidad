@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <section class="section_principal">
+        <div>
+            <div id="div_principal">
+                <div class="div_titulo"><h1>Cuentas Anto</h1></div>
+                <div class="div_contenido" id="listado_cuentas">
+                </div>
+                <div class="div_boton">
+                    <button id="btn_agregar_cuenta">Añadir cuenta</button>
+                </div>
+            </div>    
+        </div>
+    </section>
+    <section id="section_hidden" class="section_hidden">
+        <div>
+            <h3 class="exit">X</h3>
+            <div id="div_cuenta">
+                <div class="div_titulo"><h1>Cuenta familiar</h1></div>
+                <div class="div_contenido">
+                    <table border="1" width="80%" height="10%">
+                        <thead><tr><th>Número</th><th>Descripción</th><th>Total</th></tr></thead>
+                        <tbody><tr><td>1</td><td>2</td><td>3</td></tr></tbody>
+                    </table>
+                </div>
+                <div class="div_boton">
+                    <button id="btn_agregar_movimiento">Añadir movimiento</button>
+                </div>
+            </div>
+            <div id="div_agregar_cuenta">
+                <div class="div_titulo"><h1>Nombre de la cuenta que quieres agregar</h1></div>
+                <div class="div_contenido">
+                    <input name="agregar_cuenta" type="text" id="input_agregar_cuenta">
+                </div>
+                <div class="div_boton">
+                    <button>Añadir cuenta</button>
+                </div>
+            </div>
+            <div id="div_agregar_movimiento">
+                <div class="div_titulo"><h1>Añadir movimiento</h1></div>
+                <div class="div_contenido">
+                    <div class="div_radio_buttons">
+                        <label><input type="radio" name="type" value="entrada">Entrada</label>
+                        <label><input type="radio" name="type" value="salida">Salida</label>
+                    </div>
+                    <div>
+                        <label>Monto<input type="text"></label>
+                        <label>Detalle<input type="text"></label>
+                    </div>
+                </div>
+                <div class="div_boton">
+                    <button>Añadir</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script src="script.js"></script>
+</html>
