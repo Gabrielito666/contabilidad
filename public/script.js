@@ -6,6 +6,12 @@ const btnAgregarCuenta = document.getElementById('btn_agregar_cuenta');
 const ventanaCrearCuenta = document.getElementById('div_agregar_cuenta');
 const btnAgregarMovimiento = document.getElementById('btn_agregar_movimiento');
 const ventanaAgregarMovimiento = document.getElementById('div_agregar_movimiento');
+const labelAgregarUsuario = document.getElementById('label_agregar_usuario');
+
+const usuario = 'Anto'
+const otroUsuario = usuario === 'Anto' ? 'Gabrielito' : 'Anto';
+
+labelAgregarUsuario.innerHTML = `Añadir a ${otroUsuario}`
 
 botonX.forEach(boton => {
   boton.addEventListener('click', function () {
