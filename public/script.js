@@ -2,18 +2,24 @@ const botonX = document.querySelectorAll('.exit');
 const seccionOculta = document.getElementById('section_hidden');
 const listadoCuentas = document.getElementById('listado_cuentas');
 const ventanaDetalleCuenta = document.getElementById('div_cuenta');
-const btnAgregarCuenta = document.getElementById('btn_agregar_cuenta');
+const btnMostrarAgregarCuenta = document.getElementById('btn_mostrar_agregar_cuenta');
 const ventanaCrearCuenta = document.getElementById('div_agregar_cuenta');
+const labelAgregarUsuario = document.getElementById('label_agregar_usuario');
 const btnAgregarMovimiento = document.getElementById('btn_agregar_movimiento');
 const ventanaAgregarMovimiento = document.getElementById('div_agregar_movimiento');
-const labelAgregarUsuario = document.getElementById('label_agregar_usuario');
+const tituloPrincipal = document.getElementById('titulo_principal');
+const btnAgregarCuenta = document.getElementById('btn_agregar_cuenta');
 
-ajaxPost('/listadoCuentas', {}, (response)=>{console.log(response)})
+let usuario, otroUsuario; 
 
-const usuario = 'Gabrielito'
-const otroUsuario = usuario === 'Anto' ? 'Gabrielito' : 'Anto';
-labelAgregarUsuario.innerHTML = `Añadir a ${otroUsuario}`
-
+ajaxPost('/listadoCuentas', {}, callbackListado)
+function callbackListado (res) {
+  renderizarLista(res.cuentas)
+  usuario = res.usuario;
+  otroUsuario = usuario === 'Anto' ? 'Gabrielito' : 'Anto';
+  tituloPrincipal.innerHTML = `Cuentas ${usuario}`
+  labelAgregarUsuario.innerHTML = `Añadir a ${otroUsuario}`
+}
 
 botonX.forEach(boton => {
   boton.addEventListener('click', function () {
@@ -21,12 +27,20 @@ botonX.forEach(boton => {
   })
 })
 
-btnAgregarCuenta.addEventListener('click', () => {
+btnMostrarAgregarCuenta.addEventListener('click', () => {
   mostrarVentana(ventanaCrearCuenta);
 })
 
 btnAgregarMovimiento.addEventListener('click', () => {
   mostrarVentana(ventanaAgregarMovimiento);
+})
+
+btnAgregarCuenta.addEventListener('click', function () {
+  let objeto = {
+    nombre : document.getElementById('input_agregar_cuenta').value,
+    usuarios : document.getElementById('chk_agregar_usuario').checked ? [usuario, otroUsuario] : [usuario]
+  }
+  ajaxPost('/crearCuenta', objeto, (res)=>{console.log(res.mensaje)});
 })
 
 function mostrarVentana (ventana) {
@@ -52,8 +66,6 @@ function renderizarLista(arr){
     })
   })
 }
-
-renderizarLista(['Banco de Chile', 'Banco Estado, cuenta RUT', 'Banco Estado, cuenta de ahorro', 'Cuenta familiar']);
 
 
 function tr(arr){return `<tr>${arr.map(x=>td(x)).join('')}</tr>`};
