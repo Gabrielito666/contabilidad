@@ -1,7 +1,13 @@
 {
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "express": "^4.18.2",
     "express-session": "^1.17.3",
-    "sqlite-express": "^2.0.3"
+    "nodemon": "^3.0.1",
+    "sqlite-express": "^2.0.4"
   }
 }

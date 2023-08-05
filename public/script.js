@@ -8,10 +8,12 @@ const btnAgregarMovimiento = document.getElementById('btn_agregar_movimiento');
 const ventanaAgregarMovimiento = document.getElementById('div_agregar_movimiento');
 const labelAgregarUsuario = document.getElementById('label_agregar_usuario');
 
-const usuario = 'Anto'
-const otroUsuario = usuario === 'Anto' ? 'Gabrielito' : 'Anto';
+ajaxPost('/listadoCuentas', {}, (response)=>{console.log(response)})
 
+const usuario = 'Gabrielito'
+const otroUsuario = usuario === 'Anto' ? 'Gabrielito' : 'Anto';
 labelAgregarUsuario.innerHTML = `Añadir a ${otroUsuario}`
+
 
 botonX.forEach(boton => {
   boton.addEventListener('click', function () {
@@ -38,7 +40,6 @@ function mostrarVentana (ventana) {
 
 
 function renderizarLista(arr){
-  //INNERHTML al div listadoCuentas basado en el array que se obtiene como parametro. <h2 class="cuenta">Banco de Chile</h2>
   let listado = '';
   arr.forEach(indice=> {
     listado += h2('cuenta', indice);

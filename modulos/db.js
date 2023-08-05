@@ -4,6 +4,8 @@ const db = sqliteExpress.createDB('./data.db');
 sqliteExpress.createTable(db, 'cuentas', {nombre : 'text unique', movimientos : 'text'});
 sqliteExpress.createTable(db, 'usuarios', {nombre : 'text primary key', cuentas : 'text'});
 
+sqliteExpress.select(db, 'usuarios', 'cuentas', {nombre : 'Anto'})
+
 module.exports = {
     crearCuenta : async(nombre, usuarios)=>{
         try{
