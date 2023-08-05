@@ -93,3 +93,13 @@ input[type="text"] {
 section > div > div> div {width: 100%;}
 
 section > div > div > div > div {width: 100%;}
+
+#ventana_mensaje {
+    position: fixed;
+    display: none;
+    height: 10vh;
+    width: 50vw;
+    bottom: 5px;
+    left: 25%;
+    background-color: #b9faf8a4;
+}

@@ -9,6 +9,7 @@ const btnAgregarMovimiento = document.getElementById('btn_agregar_movimiento');
 const ventanaAgregarMovimiento = document.getElementById('div_agregar_movimiento');
 const tituloPrincipal = document.getElementById('titulo_principal');
 const btnAgregarCuenta = document.getElementById('btn_agregar_cuenta');
+const ventanaAlerta = document.getElementById('ventana_mensaje');
 
 let usuario, otroUsuario; 
 
@@ -40,7 +41,7 @@ btnAgregarCuenta.addEventListener('click', function () {
     nombre : document.getElementById('input_agregar_cuenta').value,
     usuarios : document.getElementById('chk_agregar_usuario').checked ? [usuario, otroUsuario] : [usuario]
   }
-  ajaxPost('/crearCuenta', objeto, (res)=>{console.log(res.mensaje)});
+  ajaxPost('/crearCuenta', objeto, (res)=>{mostrarAlerta(res.ok ? 'green' : 'red', res.mensaje)});
 })
 
 function mostrarVentana (ventana) {
@@ -81,3 +82,12 @@ function ajaxPost (url, objeto, callback){
   };
   xhr.send(JSON.stringify(objeto));
 };
+
+function mostrarAlerta (color, mensaje) {
+  ventanaAlerta.style.backgroundColor = color;
+  ventanaAlerta.innerHTML = `<h3>${mensaje}</h3>`;
+  ventanaAlerta.style.display = 'flex';
+  setTimeout(() => {ventanaAlerta.style.display = 'none';}, 3000);
+}
+
+mostrarAlerta('red', 'Hola')
