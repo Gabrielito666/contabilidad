@@ -10,7 +10,7 @@ function callback (res){if (res.ok){window.location.href = "/../app/index.html";
 
 function ajaxPost (url, objeto, callback){
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', `contabilidad${url}`, true);
+    xhr.open('POST', `/contabilidad${url}`, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function () {
       if(xhr.readyState === 4 && xhr.status === 200){callback(JSON.parse(xhr.responseText));}
