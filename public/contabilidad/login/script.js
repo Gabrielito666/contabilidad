@@ -6,7 +6,7 @@ document.getElementById('btn_login').onclick = ()=>{
   ajaxPost('/login', {usuario : document.getElementById('input_usuario').value, password : document.getElementById('input_password').value}, callback)
 };
 
-function callback (res){if (res.ok){window.location.href = "/../app/index.html";}else{mostrarAlerta('red', 'Alguno de los campos es incorrecto')}}
+function callback (res){if (res.ok){window.location.href = "/../contabilidad/app/index.html";}else{mostrarAlerta('red', 'Alguno de los campos es incorrecto')}}
 
 function ajaxPost (url, objeto, callback){
     let xhr = new XMLHttpRequest();

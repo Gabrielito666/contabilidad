@@ -18,12 +18,17 @@ let usuario, otroUsuario, cuentas, cuenta, movimientos, movimiento;
 
 ajaxPost('/listadoCuentas', {}, callbackListado)
 function callbackListado (res) {
-  cuentas = res.cuentas;
-  renderizarLista(cuentas)
-  usuario = res.usuario;
-  otroUsuario = usuario === 'Anto' ? 'Gabrielito' : 'Anto';
-  tituloPrincipal.innerHTML = `Cuentas ${usuario}`
-  labelAgregarUsuario.innerHTML = `Añadir a ${otroUsuario}`
+  if(res.ok){
+    cuentas = res.cuentas;
+    renderizarLista(cuentas)
+    usuario = res.usuario;
+    otroUsuario = usuario === 'Anto' ? 'Gabrielito' : 'Anto';
+    tituloPrincipal.innerHTML = `Cuentas ${usuario}`
+    labelAgregarUsuario.innerHTML = `Añadir a ${otroUsuario}`
+  }else{
+    window.location.href = "/../contabilidad/login/index.html"
+  }
+  
 }
 botonX[0].addEventListener('click', function () {seccionOculta.style.display = 'none';});
 
@@ -123,7 +128,7 @@ function h2(c, t){return `<h2 class="${c}">${t}</h2>`};
 function formatoMonto(num) {return `$${num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;};
 function ajaxPost (url, objeto, callback){
   let xhr = new XMLHttpRequest();
-  xhr.open('POST', url, true);
+  xhr.open('POST', `/contabilidad${url}`, true);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.onreadystatechange = function () {
     if(xhr.readyState === 4 && xhr.status === 200){callback(JSON.parse(xhr.responseText));}
