@@ -10,9 +10,11 @@ const ventanaAgregarMovimiento = document.getElementById('div_agregar_movimiento
 const tituloPrincipal = document.getElementById('titulo_principal');
 const btnAgregarCuenta = document.getElementById('btn_agregar_cuenta');
 const ventanaAlerta = document.getElementById('ventana_mensaje');
+const bodyTabla = document.getElementById('body_tabla');
 
 let usuario, otroUsuario;
-let cuentas = []; 
+let cuentas = [];
+let detalle = [];
 
 ajaxPost('/listadoCuentas', {}, callbackListado)
 function callbackListado (res) {
@@ -28,7 +30,7 @@ botonX.forEach(boton => {
   boton.addEventListener('click', function () {
     seccionOculta.style.display = 'none';
   })
-})
+})//ahora es solo un boton x
 
 btnMostrarAgregarCuenta.addEventListener('click', () => {
   mostrarVentana(ventanaCrearCuenta);
@@ -76,10 +78,26 @@ function renderizarLista(arr){
   cuentas.forEach(cuenta => {
     cuenta.addEventListener('click', () => {
      mostrarVentana(ventanaDetalleCuenta);
+	ajaxPost('/detalleCuenta', {nombre : cuenta.innerHTML}, callbackDetalle);
     })
   })
-}
+}7
 
+function callbackDetalle(res){
+	detalle = res;
+	if(res.length > 1){
+		bodyTabla.innerHTML = 'no has agrgado movimientos a esta cuenta';
+	}else{
+		renderizarTabla(res)
+	}
+}
+function renderizarTabla(arr){
+	let stringRows = [];
+	arr.forEach(movimiento =>{
+		stringRows.puhs(tr([movimiento.numero, movimiento.fecha, movimiento.monto, movimiento.detalle]));
+		bodyTabla.innerHTML = stringRows.join('');
+	})
+}
 function tr(arr){return `<tr>${arr.map(x=>td(x)).join('')}</tr>`};
 function td(x){return `<td>${x}</td>`};
 function btn(c, n, i, t, disabled){return `<button class="${c}" name="${n}" id="${i}" ${disabled ? 'disabled' : ''}>${t}</button>`}
