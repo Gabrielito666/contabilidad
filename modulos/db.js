@@ -38,6 +38,8 @@ module.exports = {
         return await sqliteExpress.select(db, 'cuentas', 'movimientos', {nombre : cuenta})
     },
     login : async(usuario, pass)=>{
-        return bcrypt.compareSync(pass, await sqliteExpress.select(db, 'usuarios', 'password', {nombre : usuario}))
+        return {
+            ok : bcrypt.compareSync(pass, await sqliteExpress.select(db, 'usuarios', 'password', {nombre : usuario})) 
+        }
     }
 }
