@@ -1,5 +1,7 @@
 const sqliteExpress = require('sqlite-express');
-const db = sqliteExpress.createDB('./data.db');
+const path = require('path');
+const bcrypt = require('bcryptjs');
+const db = sqliteExpress.createDB(path.resolve(__dirname, '../data.db'));
 
 sqliteExpress.createTable(db, 'cuentas', {nombre : 'text unique', movimientos : 'text'});
 sqliteExpress.createTable(db, 'usuarios', {nombre : 'text primary key', cuentas : 'text'});
@@ -34,5 +36,8 @@ module.exports = {
     },
     detalleCuenta : async(cuenta)=>{
         return await sqliteExpress.select(db, 'cuentas', 'movimientos', {nombre : cuenta})
+    },
+    login : async(usuario, pass)=>{
+        return bcrypt.compareSync(pass, await sqliteExpress.select(db, 'usuarios', 'password', {nombre : usuario}))
     }
 }
