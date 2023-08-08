@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const router = express.router();
+const router = express.Router();
 const db = require('./modulos/db');
 
 app.use(express.static('public'));

@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'SpaceMono';
-    src: url('SpaceMono') format('woff2')
+    src: url('../SpaceMono') format('woff2')
 }
 
 body {
