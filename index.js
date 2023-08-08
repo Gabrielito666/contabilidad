@@ -13,5 +13,5 @@ router.post('/agregarMovimiento', async(req, res)=>{res.json(await db.agregarMov
 router.post('/listadoCuentas', async(req, res)=>{res.json({cuentas : await db.listadoCuentas('Anto'), usuario : 'Anto'})});
 router.post('/detalleCuenta', async(req, res)=>{res.json({movimientos : await db.detalleCuenta(req.body.cuenta)})});
 
-module.exports = rotuer;
+module.exports = router;
 //app.listen(3000, ()=>{console.log('Servidor corriendo en el puerto 3000')});
