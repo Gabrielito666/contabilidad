@@ -13,7 +13,7 @@ app.use(session({
 }));
 app.use('/', router);
 
-router.get('/', '/contabilidad/app/index.html')
+router.get('/', async(req, res)=>{res.redirect('/contabilidad/app/index.html')})
 router.post('/login', async(req, res)=>{if(db.login(req.usuario, req.password)){req.session.usuario = req.body.usuario; res.redirect('/../app/index.html')}else{res.redirect(`?${req.usuario}`)}})
 router.post('/crearCuenta', async(req, res)=>{res.json(await db.crearCuenta(req.body.nombre, req.body.usuarios))});
 router.post('/agregarMovimiento', async(req, res)=>{res.json(await db.agregarMovimiento(req.body.cuenta, req.body.movimiento))});
