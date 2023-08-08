@@ -23,15 +23,16 @@
         <div>
             <h3 class="exit">X</h3>
             <div id="div_cuenta">
-                <div class="div_titulo"><h1>Cuenta familiar</h1></div>
+                <div class="div_titulo"><h1 id="titulo_cuenta"></h1></div>
                 <div class="div_contenido">
                     <table border="1" width="80%" height="10%">
-                        <thead><tr><th>Número</th><th>Descripción</th><th>Total</th></tr></thead>
+                        <thead><tr><th>N°</th><th>Fecha</th><th>Monto</th><th>Descripción</th></tr></thead>
                         <tbody id="body_tabla"></tbody>
                     </table>
+                    <h2>Total : <span id="span_total"></span></h2>
                 </div>
                 <div class="div_boton">
-                    <button id="btn_agregar_movimiento">Añadir movimiento</button>
+                    <button id="btn_mostrar_agregar_movimiento">Añadir movimiento</button>
                 </div>
             </div>
             <div id="div_agregar_cuenta">
@@ -50,16 +51,16 @@
                 <div class="div_titulo"><h1>Añadir movimiento</h1></div>
                 <div class="div_contenido">
                     <div class="div_radio_buttons">
-                        <label><input type="radio" name="type" value="entrada">Entrada</label>
-                        <label><input type="radio" name="type" value="salida">Salida</label>
+                        <label><input class="radio_tipo_movimiento" type="radio" name="type" value="entrada" checked>Entrada</label>
+                        <label><input class="radio_tipo_movimiento" type="radio" name="type" value="salida">Salida</label>
                     </div>
                     <div>
-                        <label>Monto<input type="text"></label>
-                        <label>Detalle<input type="text"></label>
+                        <label>Monto<input type="number" id="input_monto"></label>
+                        <label>Detalle<input type="text" id="input_detalle"></label>
                     </div>
                 </div>
                 <div class="div_boton">
-                    <button>Añadir</button>
+                    <button id="btn_agregar_movimiento">Añadir</button>
                 </div>
             </div>
         </div>

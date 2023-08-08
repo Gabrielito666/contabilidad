@@ -5,16 +5,16 @@ const ventanaDetalleCuenta = document.getElementById('div_cuenta');
 const btnMostrarAgregarCuenta = document.getElementById('btn_mostrar_agregar_cuenta');
 const ventanaCrearCuenta = document.getElementById('div_agregar_cuenta');
 const labelAgregarUsuario = document.getElementById('label_agregar_usuario');
-const btnAgregarMovimiento = document.getElementById('btn_agregar_movimiento');
+const btnMostrarAgregarMovimiento = document.getElementById('btn_mostrar_agregar_movimiento');
 const ventanaAgregarMovimiento = document.getElementById('div_agregar_movimiento');
 const tituloPrincipal = document.getElementById('titulo_principal');
 const btnAgregarCuenta = document.getElementById('btn_agregar_cuenta');
 const ventanaAlerta = document.getElementById('ventana_mensaje');
 const bodyTabla = document.getElementById('body_tabla');
+const btnAgregarMovimiento = document.getElementById('btn_agregar_movimiento');
+const spanTotal = document.getElementById('span_total');
 
-let usuario, otroUsuario;
-let cuentas = [];
-let detalle = [];
+let usuario, otroUsuario, cuentas, cuenta, movimientos, movimiento;
 
 ajaxPost('/listadoCuentas', {}, callbackListado)
 function callbackListado (res) {
@@ -25,21 +25,14 @@ function callbackListado (res) {
   tituloPrincipal.innerHTML = `Cuentas ${usuario}`
   labelAgregarUsuario.innerHTML = `Añadir a ${otroUsuario}`
 }
-
-botonX.forEach(boton => {
-  boton.addEventListener('click', function () {
-    seccionOculta.style.display = 'none';
-  })
-})//ahora es solo un boton x
+botonX[0].addEventListener('click', function () {seccionOculta.style.display = 'none';});
 
 btnMostrarAgregarCuenta.addEventListener('click', () => {
   mostrarVentana(ventanaCrearCuenta);
 })
-
-btnAgregarMovimiento.addEventListener('click', () => {
+btnMostrarAgregarMovimiento.addEventListener('click', () => {
   mostrarVentana(ventanaAgregarMovimiento);
 })
-
 btnAgregarCuenta.addEventListener('click', function () {
   btnAgregarCuenta.disabled = true;
   let objeto = {
@@ -51,15 +44,14 @@ btnAgregarCuenta.addEventListener('click', function () {
 function callbackCrearCuenta(res){
   if(res.ok){
     cuentas.push(document.getElementById('input_agregar_cuenta').value);
-    renderizarLista(cuentas)
+    renderizarLista(cuentas);
     seccionOculta.style.display = 'none';
   }
   mostrarAlerta(res.ok ? 'green' : 'red', res.mensaje)
   btnAgregarCuenta.disabled = false;
   document.getElementById('input_agregar_cuenta').value = '';
-  ocument.getElementById('chk_agregar_usuario').checked = false;
+  document.getElementById('chk_agregar_usuario').checked = false;
 }
-
 function mostrarVentana (ventana) {
   seccionOculta.style.display = 'flex';
   ventanaCrearCuenta.style.display = 'none';
@@ -67,7 +59,6 @@ function mostrarVentana (ventana) {
   ventanaAgregarMovimiento.style.display = 'none';
   ventana.style.display = 'flex';
 }
-
 function renderizarLista(arr){
   let listado = '';
   arr.forEach(indice=> {
@@ -75,33 +66,61 @@ function renderizarLista(arr){
   })
   listadoCuentas.innerHTML = listado;
   const cuentas = document.querySelectorAll('.cuenta');
-  cuentas.forEach(cuenta => {
-    cuenta.addEventListener('click', () => {
-     mostrarVentana(ventanaDetalleCuenta);
-	ajaxPost('/detalleCuenta', {nombre : cuenta.innerHTML}, callbackDetalle);
+  cuentas.forEach(estaCuenta => {
+    estaCuenta.addEventListener('click', () => {
+      cuenta = estaCuenta.innerHTML;
+      document.getElementById('titulo_cuenta').innerHTML = cuenta;
+      bodyTabla.innerHTML = '<tr><td colspan="4">Cargando Datos...</td></tr>';
+      spanTotal.innerHTML = '...';
+      mostrarVentana(ventanaDetalleCuenta);
+	    ajaxPost('/detalleCuenta', {cuenta : cuenta}, callbackDetalle);
     })
   })
-}7
-
+}
 function callbackDetalle(res){
-	detalle = res;
-	if(res.length > 1){
-		bodyTabla.innerHTML = 'no has agrgado movimientos a esta cuenta';
+	movimientos = res.movimientos;
+	if(movimientos.length < 1){
+		bodyTabla.innerHTML = '<tr><td colspan="4">no has agrgado movimientos a esta cuenta</td></tr>';
+    spanTotal.innerHTML = '<span class="monto_positivo">$0</span>';
 	}else{
-		renderizarTabla(res)
+		renderizarTabla(movimientos);
 	}
 }
 function renderizarTabla(arr){
 	let stringRows = [];
-	arr.forEach(movimiento =>{
-		stringRows.puhs(tr([movimiento.numero, movimiento.fecha, movimiento.monto, movimiento.detalle]));
+  let total = 0;
+	arr.forEach((movimiento, i) =>{
+		stringRows.push(tr([i + 1, movimiento.fecha === undefined ? 'Justo ahora' : movimiento.fecha, `<span class="${movimiento.monto >= 0 ? 'monto_positivo' : 'monto_negativo'}">${formatoMonto(movimiento.monto)}</span>`, movimiento.detalle]));
 		bodyTabla.innerHTML = stringRows.join('');
+    total += movimiento.monto;
+    console.log (movimiento.monto)
 	})
+  spanTotal.innerHTML = total;
+  spanTotal.style.color = total >= 0 ? 'green' : 'red';
+}
+btnAgregarMovimiento.addEventListener('click', ()=>{
+  btnAgregarMovimiento.disabled = true;
+  let tipoMov;
+  document.querySelectorAll('.radio_tipo_movimiento').forEach(r=>{if(r.checked){tipoMov = r.value}});
+  let monto = document.getElementById('input_monto').value;
+  movimiento = {monto : tipoMov === 'entrada' ? +monto : -monto, detalle : document.getElementById('input_detalle').value};
+  ajaxPost('/agregarMovimiento', {cuenta : cuenta, movimiento : movimiento}, callbackAgregarMovimiento);
+})
+function callbackAgregarMovimiento (res){
+  if(res.ok){
+    movimientos.push(movimiento);
+    renderizarTabla(movimientos);
+    mostrarVentana(ventanaDetalleCuenta);
+  }
+  mostrarAlerta(res.ok ? 'green' : 'red', res.mensaje)
+  btnAgregarMovimiento.disabled = false;
+  document.getElementById('input_detalle').value = '';
 }
 function tr(arr){return `<tr>${arr.map(x=>td(x)).join('')}</tr>`};
 function td(x){return `<td>${x}</td>`};
 function btn(c, n, i, t, disabled){return `<button class="${c}" name="${n}" id="${i}" ${disabled ? 'disabled' : ''}>${t}</button>`}
 function h2(c, t){return `<h2 class="${c}">${t}</h2>`};
+function formatoMonto(num) {return `$${num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;};
 function ajaxPost (url, objeto, callback){
   let xhr = new XMLHttpRequest();
   xhr.open('POST', url, true);
@@ -111,7 +130,6 @@ function ajaxPost (url, objeto, callback){
   };
   xhr.send(JSON.stringify(objeto));
 };
-
 function mostrarAlerta (color, mensaje) {
   ventanaAlerta.style.backgroundColor = color;
   ventanaAlerta.innerHTML = `<h3>${mensaje}</h3>`;

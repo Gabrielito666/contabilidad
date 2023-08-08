@@ -21,8 +21,9 @@ module.exports = {
     }, 
     agregarMovimiento : async(cuenta, movimiento)=>{
         movimiento.fecha = new Date().toLocaleString('es-CL', {timeZone: 'America/Santiago', hour12: false});
+        console.log(cuenta, movimiento)
         try{
-            await sqliteExpress.update(db, 'cuentas', {movimientos : (x)=>{return [...x, movimiento]}}, {cuenta : cuenta})
+            await sqliteExpress.update(db, 'cuentas', {movimientos : (x)=>{return [...x, movimiento]}}, {nombre : cuenta})
             return {ok : true, mensaje : 'Éxito al registrar el movimiento'};
         }catch(err){
             return {ok : false, mensaje : 'Ha ocurrido un error al registrar ell movimiento, Por favor intentelo más tárde'};

@@ -103,3 +103,5 @@ section > div > div > div > div {width: 100%;}
     left: 25%;
     background-color: #b9faf8a4;
 }
+span.monto_positivo{color : green}
+span.monto_negativo{color : red}
