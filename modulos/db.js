@@ -9,7 +9,7 @@ sqliteExpress.select(db, 'usuarios', 'cuentas', {nombre : 'Anto'})
 module.exports = {
     crearCuenta : async(nombre, usuarios)=>{
         try{
-            await sqliteExpress.insert(db, 'cuentas', {nombre : nombre, movimientos : [], usuarios : usuarios});
+            await sqliteExpress.insert(db, 'cuentas', {nombre : nombre, movimientos : []});
             await sqliteExpress.update(db, 'usuarios', {cuentas : (x)=>{return [...x, nombre]}}, {nombre : usuarios}, 'OR');
             return {ok : true, mensaje : `Éxito al crear cuenta ${nombre}`};
         }catch(err){

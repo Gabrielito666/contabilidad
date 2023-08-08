@@ -11,11 +11,13 @@ const tituloPrincipal = document.getElementById('titulo_principal');
 const btnAgregarCuenta = document.getElementById('btn_agregar_cuenta');
 const ventanaAlerta = document.getElementById('ventana_mensaje');
 
-let usuario, otroUsuario; 
+let usuario, otroUsuario;
+let cuentas = []; 
 
 ajaxPost('/listadoCuentas', {}, callbackListado)
 function callbackListado (res) {
-  renderizarLista(res.cuentas)
+  cuentas = res.cuentas;
+  renderizarLista(cuentas)
   usuario = res.usuario;
   otroUsuario = usuario === 'Anto' ? 'Gabrielito' : 'Anto';
   tituloPrincipal.innerHTML = `Cuentas ${usuario}`
@@ -37,12 +39,24 @@ btnAgregarMovimiento.addEventListener('click', () => {
 })
 
 btnAgregarCuenta.addEventListener('click', function () {
+  btnAgregarCuenta.disabled = true;
   let objeto = {
     nombre : document.getElementById('input_agregar_cuenta').value,
     usuarios : document.getElementById('chk_agregar_usuario').checked ? [usuario, otroUsuario] : [usuario]
   }
-  ajaxPost('/crearCuenta', objeto, (res)=>{mostrarAlerta(res.ok ? 'green' : 'red', res.mensaje)});
+  ajaxPost('/crearCuenta', objeto, callbackCrearCuenta);
 })
+function callbackCrearCuenta(res){
+  if(res.ok){
+    cuentas.push(document.getElementById('input_agregar_cuenta').value);
+    renderizarLista(cuentas)
+    seccionOculta.style.display = 'none';
+  }
+  mostrarAlerta(res.ok ? 'green' : 'red', res.mensaje)
+  btnAgregarCuenta.disabled = false;
+  document.getElementById('input_agregar_cuenta').value = '';
+  ocument.getElementById('chk_agregar_usuario').checked = false;
+}
 
 function mostrarVentana (ventana) {
   seccionOculta.style.display = 'flex';
@@ -51,8 +65,6 @@ function mostrarVentana (ventana) {
   ventanaAgregarMovimiento.style.display = 'none';
   ventana.style.display = 'flex';
 }
-
-
 
 function renderizarLista(arr){
   let listado = '';
@@ -67,7 +79,6 @@ function renderizarLista(arr){
     })
   })
 }
-
 
 function tr(arr){return `<tr>${arr.map(x=>td(x)).join('')}</tr>`};
 function td(x){return `<td>${x}</td>`};
@@ -88,6 +99,4 @@ function mostrarAlerta (color, mensaje) {
   ventanaAlerta.innerHTML = `<h3>${mensaje}</h3>`;
   ventanaAlerta.style.display = 'flex';
   setTimeout(() => {ventanaAlerta.style.display = 'none';}, 3000);
-}
-
-mostrarAlerta('red', 'Hola')
+};

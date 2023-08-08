@@ -8,6 +8,6 @@
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "nodemon": "^3.0.1",
-    "sqlite-express": "^2.0.4"
+    "sqlite-express": "^2.0.6"
   }
 }
