@@ -26,11 +26,16 @@ router.post('/login', async(req, res)=>{
 router.post('/crearCuenta', async(req, res)=>{res.json(await db.crearCuenta(req.body.nombre, req.body.usuarios))});
 router.post('/agregarMovimiento', async(req, res)=>{res.json(await db.agregarMovimiento(req.body.cuenta, req.body.movimiento))});
 router.post('/listadoCuentas', async(req, res)=>{
-    if(req.session.usuario){
-        res.json({ok : true, cuentas : await db.listadoCuentas(req.session.usuario), usuario : req.session.usuario})
-    }else{
+    try{
+        if(req.session.usuario){
+            res.json({ok : true, cuentas : await db.listadoCuentas(req.session.usuario), usuario : req.session.usuario})
+        }else{
+            res.json({ok : false})
+        } 
+    }catch{
         res.json({ok : false})
-    } 
+    }
+    
 });
 router.post('/detalleCuenta', async(req, res)=>{res.json({movimientos : await db.detalleCuenta(req.body.cuenta)})});
 
