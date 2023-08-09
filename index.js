@@ -16,7 +16,7 @@ app.use('/', router);
 router.get('/', async(req, res)=>{res.redirect('/contabilidad/app/index.html')})
 router.post('/login', async(req, res)=>{
     try {
-        if(await db.login(req.body.usuario, req.body.password)){
+        if((await db.login(req.body.usuario, req.body.password)).ok){
             req.session.usuario = req.body.usuario;
             res.json({ok : true});
         }else{
