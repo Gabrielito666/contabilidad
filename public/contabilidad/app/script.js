@@ -98,7 +98,6 @@ function renderizarTabla(arr){
 		stringRows.push(tr([i + 1, movimiento.fecha === undefined ? 'Justo ahora' : movimiento.fecha, `<span class="${movimiento.monto >= 0 ? 'monto_positivo' : 'monto_negativo'}">${formatoMonto(movimiento.monto)}</span>`, movimiento.detalle]));
 		bodyTabla.innerHTML = stringRows.join('');
     total += movimiento.monto;
-    console.log (movimiento.monto)
 	})
   spanTotal.innerHTML = total;
   spanTotal.style.color = total >= 0 ? 'green' : 'red';
@@ -116,6 +115,7 @@ function callbackAgregarMovimiento (res){
     movimientos.push(movimiento);
     renderizarTabla(movimientos);
     mostrarVentana(ventanaDetalleCuenta);
+    document.getElementById('input_monto').value = 0;
   }
   mostrarAlerta(res.ok ? 'green' : 'red', res.mensaje)
   btnAgregarMovimiento.disabled = false;
