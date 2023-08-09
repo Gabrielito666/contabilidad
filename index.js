@@ -15,12 +15,17 @@ app.use('/', router);
 
 router.get('/', async(req, res)=>{res.redirect('/contabilidad/app/index.html')})
 router.post('/login', async(req, res)=>{
-    if(await db.login(req.body.usuario, req.body.password)){
-        req.session.usuario = req.body.usuario;
-        res.json({ok : true});
-    }else{
+    try {
+        if(await db.login(req.body.usuario, req.body.password)){
+            req.session.usuario = req.body.usuario;
+            res.json({ok : true});
+        }else{
+            res.json({ok : false});
+        }
+    } catch{
         res.json({ok : false});
     }
+    
     
 })
 router.post('/crearCuenta', async(req, res)=>{res.json(await db.crearCuenta(req.body.nombre, req.body.usuarios))});
